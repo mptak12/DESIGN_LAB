@@ -12,6 +12,6 @@ void Zumo_Led_Init(void)
 
 void LED(int a)
 {
-	if(a==0) PTB->PDOR |= (1<<0); //gasi //chyba jednak to na odwrot jest 
+	if(a==1) PTB->PDOR |= (1<<0); //gasi //chyba jednak to na odwrot jest 
 		else	PTB->PDOR &= ~(1<<0); //swieci
 }
