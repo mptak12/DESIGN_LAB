@@ -4,7 +4,7 @@
 #include "frdm_bsp.h"
 #include "motors.h"
 #include "led.h"
-#include "uart0.h" ////przerobic pozniej
+#include "uart0.h" 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -19,7 +19,6 @@ uint8_t rx_FULL=0;
 uint8_t rx_buf_pos=0;
 /////////////////
 
-//void UART0_IRQHandler(void); //previous delcaraton warning nwm o co kaman
 void UART0_IRQHandler()
 {
 	char temp;
@@ -39,7 +38,7 @@ void UART0_IRQHandler()
 			
 		}
 	}
-	NVIC_EnableIRQ(UART0_IRQn);
+	NVIC_EnableIRQ(UART0_IRQn);	//wlaczenie przerwan
 }
 
 int main(){
@@ -53,32 +52,38 @@ int main(){
 	
 	while(1){
 		
-		if(rx_FULL ==1){	//przegladnac jak z zerowaniem RX_FULL - dalem na koncu
-			//choice = rx_buf;
-			//choice=2;
+		if(rx_FULL ==1){
 			choice=atoi(rx_buf);
-			
 			//DELAY(2000)
-		
 			switch(choice)
 				{
 				case 1:
 					LED(0);
-					set_motor_L(70);		//0-10 stoi raczej 100 - max
+					set_motor_L(70);		//0-10 stoi 100 - max
 					set_motor_R(70);
 					DELAY(1000)
-				
 					set_motor_L(0);
 					set_motor_R(0);
 					DELAY(500)
-		
+					
+					set_motor_L(30); //obroty
+					set_motor_R(-30);
+					DELAY(1200)
+					set_motor_L(-30);
+					set_motor_R(30);
+					DELAY(1200)
+					set_motor_L(-30);
+					set_motor_R(30);
+					DELAY(1000)
+					set_motor_L(30); //obroty
+					set_motor_R(-30);
+					DELAY(1200)
 					set_motor_L(-70);
 					set_motor_R(-70);
 					DELAY(1000)
-					
 					set_motor_L(0);
 					set_motor_R(0);
-					DELAY(3000)
+					DELAY(500)
 					choice=0;
 					break;
 				
@@ -86,16 +91,16 @@ int main(){
 					LED(0);
 					set_motor_L(40);
 					set_motor_R(-40);
-					DELAY(3000)
+					DELAY(2000)
 					set_motor_L(0);
 					set_motor_R(0);
 					DELAY(1000)
 					set_motor_L(-40);
 					set_motor_R(40);
-					DELAY(3000)
+					DELAY(2000)
 					set_motor_L(0);
 					set_motor_R(0);
-					DELAY(3000)
+					DELAY(1000)
 					choice =0;
 				break;
 				
@@ -103,22 +108,22 @@ int main(){
 					LED(0);
 					set_motor_L(25);
 					set_motor_R(60);
-					DELAY(3000)
+					DELAY(2500)
 					set_motor_L(-25);
 					set_motor_R(-60);
 					DELAY(3000)
 					set_motor_L(0);
 					set_motor_R(0);
 					DELAY(500)
-					set_motor_L(55);
+					set_motor_L(65);
 					set_motor_R(30);
-					DELAY(3000)
-					set_motor_L(-55);
+					DELAY(2500)
+					set_motor_L(-65);
 					set_motor_R(-30);
-					DELAY(3000)
+					DELAY(2500)
 					set_motor_L(0);
 					set_motor_R(0);
-					DELAY(3000)
+					DELAY(1000)
 					choice=0;
 				break;
 				
@@ -129,51 +134,21 @@ int main(){
 					DELAY(3000)
 					set_motor_L(0);
 					set_motor_R(0);
-					DELAY(1000)
-					set_motor_L(-60);
-					set_motor_R(60);
-					DELAY(3000)
-					set_motor_L(0);
-					set_motor_R(0);
-					DELAY(1000)
+					DELAY(400)
 				
-					set_motor_L(90);		//do przodu
-					set_motor_R(90);
+					set_motor_L(100);		//do przodu
+					set_motor_R(100);
 					DELAY(500)
 				
 					set_motor_L(0);
 					set_motor_R(0);
 					DELAY(500)
-		
-					set_motor_R(60);	//obrot 2
-					set_motor_L(-60);
-					DELAY(3000)
-					set_motor_L(0);
-					set_motor_R(0);
-					DELAY(1000)
-					set_motor_R(-60);
-					set_motor_L(60);
-					DELAY(3000)
-					set_motor_L(0);
-					set_motor_R(0);
-					DELAY(1000)
-		
-		
-					set_motor_L(-90);
-					set_motor_R(-90);
-					DELAY(1000)
-					
-					set_motor_L(0);
-					set_motor_R(0);
-					DELAY(3000)
-					choice=0;
+				choice=0;
 				break;
-				
+					
 				default:
 					__NOP();
 				LED(1);
-				//DELAY(500)
-				//LED(0);
 			}
 			rx_buf_pos=0;
 			rx_FULL=0;
